@@ -1,0 +1,72 @@
+import { Request, Response } from "express"
+import { userLoginDTO, userRegisterDTO } from "../dtos/UserDTO"
+import { getUserByIdService, getUserService, registerUserService } from "../services/userServices"
+
+ export const getUsersController = async(req: Request, res: Response): Promise<void> => {
+  try {
+      const users = await getUserService()
+      res.status(200).json({
+          message: 'Obtener el listado de todos los usuarios.',
+          data: users
+      })
+    
+  } catch (error) {
+    res.status(500).json({
+        message: error instanceof Error ? error.message: 'Error desconocido'
+    })
+    
+  }
+
+}
+
+export const getUserByIdController = async(req: Request<{id: string}>, res: Response): Promise<void> => {
+
+    
+   try {
+    const userFound = await getUserByIdService(parseInt(req.params.id,10))
+       res.status(200).json({
+           message: 'Obtener el detalle de un usuario específico.',
+           data: userFound
+       })
+    
+   } catch (error) {
+    res.status(500).json({
+        message: error instanceof Error ? error.message: 'Error desconocido'
+    })
+   }
+
+
+}
+
+export const registerUserController = async(req: Request<unknown, unknown, userRegisterDTO>, res: Response):Promise<void> => {
+   try {
+       const userRegisterResponse = await registerUserService(req.body)
+       res.status(201).json({
+           message: 'Registro de un nuevo usuario.',
+           data: userRegisterResponse
+       })
+    
+   } catch (error) {
+    res.status(500).json({
+        message: error instanceof Error ? error.message: 'Error desconocido'
+    })
+    
+   } 
+         }
+
+export const loginUsersController = async(req: Request<unknown, unknown, userLoginDTO>, res: Response):Promise<void> => {
+            
+    res.status(201).json({
+        message: 'Login del usuario a la aplicación.',
+        data: {}
+    })
+         }
+      
+
+
+
+
+
+
+
+
