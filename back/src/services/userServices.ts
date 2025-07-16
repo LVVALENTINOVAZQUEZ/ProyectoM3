@@ -1,21 +1,21 @@
+import { EntityManager } from "typeorm";
+import { AppDataSource, UserModel } from "../Config/data-source";
 import { userRegisterDTO, userResponseDTO } from "../dtos/UserDTO";
-import { IUser } from "../interfaces/userIterface";
+import { User } from "../entities/UserEntity";
 import { getCredenctialService } from "./credentialService";
 
-const userList: IUser[] = []
-let id: number = 1
+
+
 
 export const getUserService = async (): Promise<userResponseDTO[]> => {
-    return userList.map(user => {
-        return{
-            name: user.name,
-            email: user.email
-        }
-    })
+return await UserModel.find()
 }
 
-export const getUserByIdService = async (id:number): Promise<IUser> => {
-    const userFound = userList.find(user => user.id === id) //buscamos el usuario
+export const getUserByIdService = async (id:number): Promise<User | null> => {
+    const userFound = await UserModel.findOne({
+        where: {id:id},
+      relations: ['credentials'] //buscamos el usuario y sus credenciales
+    }) //buscamos el usuario
     if(!userFound) throw new Error(`El usuario con id: ${id} no fue encontrado`)//sino hacemos una excepción
         else return userFound
 }
@@ -24,19 +24,24 @@ export const getUserByIdService = async (id:number): Promise<IUser> => {
 
 
 export const registerUserService = async(user: userRegisterDTO): Promise<userResponseDTO> => {
-   const idUserCredentials = await getCredenctialService(user.username, user.password)
 
-   const newUser: IUser = {
-    id: id++,
+   const resultadoTransacción = await AppDataSource.transaction(async(entityManager) => {
+   const idUserCredentials = await getCredenctialService(entityManager, user.username, user.password)
+   const newUser: User = entityManager.create(User,{ 
     name: user.name,
-    birthday: user.birthday,
+    birthdate: user.birthdate,
     email: user.email,
-    ndni: user.dni,
-    credentialsId: idUserCredentials
-   }
-   userList.push(newUser)
-   return {
-    name: newUser.name,
-    email: newUser.email,
-   }
+    nDni: user.nDni,
+    credentials: idUserCredentials
+   })
+
+    await entityManager.save(newUser)
+    return newUser
+   
+})
+
+return {
+    name: resultadoTransacción.name,
+    email: resultadoTransacción.email
+}
 }

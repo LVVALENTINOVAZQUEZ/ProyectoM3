@@ -7,3 +7,5 @@ export interface scheduleAppDTO{
     status: Status,
     userId: number
 }
+
+

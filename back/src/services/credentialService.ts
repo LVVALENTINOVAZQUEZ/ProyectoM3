@@ -1,6 +1,9 @@
+import { EntityManager } from "typeorm";
+import { CredentialModel } from "../Config/data-source";
+import { Credential } from "../entities/CredentialsEntities";
 import { ICredential } from "../interfaces/CredentialInterface";
 const credentialsList: ICredential[] = []
-let id: number = 1
+
 
 const crypPass = async (text: string): Promise<string> => {
 
@@ -13,23 +16,26 @@ const crypPass = async (text: string): Promise<string> => {
     return hashex
 }
 
-const checkUserExist = (username: string):void => {
-    const credentialFound = credentialsList.find( cred => cred.username === username)
+const checkUserExist = async(username: string):Promise<void> => {
+    const credentialFound = await CredentialModel.findOne({ where: {
+       username: username
+       }})
+
+
     if(credentialFound) throw new Error(`El usuario username: ${username} ya existe. Intente con un username diferente`)
 }
 
-export const getCredenctialService = async(username: string, password: string): Promise<number> => {
-    checkUserExist(username)
-    const credential: ICredential = {
-        id: id++,
+export const getCredenctialService = async(entityManager: EntityManager,username: string, password: string): Promise<Credential> => {
+    
+   const credential: Credential = entityManager.create(Credential,{
         username: username,
         password: await crypPass(password)
-    }
-    credentialsList.push(credential)
-    
-    return credential.id
-}
+    })
 
+ return await entityManager.save(credential)
+    
+    
+}
 export const checkUserCredentialService = async(username: string, password: string): Promise<number> => {
      const credentialFound = credentialsList.find( cred => cred.username === username)
      if(credentialFound?.password === await crypPass(password)) return credentialFound.id

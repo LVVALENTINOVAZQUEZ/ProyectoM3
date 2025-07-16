@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { userLoginDTO, userRegisterDTO } from "../dtos/UserDTO"
 import { getUserByIdService, getUserService, registerUserService } from "../services/userServices"
+import { PostgretsError } from "../interfaces/ErrorInterfaces"
 
  export const getUsersController = async(req: Request, res: Response): Promise<void> => {
   try {
@@ -47,8 +48,9 @@ export const registerUserController = async(req: Request<unknown, unknown, userR
        })
     
    } catch (error) {
+    const err = error as PostgretsError
     res.status(500).json({
-        message: error instanceof Error ? error.message: 'Error desconocido'
+        message: err instanceof Error ? err.detail ? err.detail: err.message: 'Error desconocido'
     })
     
    } 
