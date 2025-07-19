@@ -12,6 +12,14 @@ export interface userLoginDTO{
     password: string
 }
 
+export interface userLoginSccDTO{
+id: number,
+name: string,
+email: string,
+birthdate: Date,
+nDni: number,
+}
+
 export interface userResponseDTO{
     name: string,
     email: string,

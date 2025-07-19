@@ -1,8 +1,8 @@
 import { EntityManager } from "typeorm";
 import { AppDataSource, UserModel } from "../Config/data-source";
-import { userRegisterDTO, userResponseDTO } from "../dtos/UserDTO";
+import { userLoginDTO, userLoginSccDTO, userRegisterDTO, userResponseDTO } from "../dtos/UserDTO";
 import { User } from "../entities/UserEntity";
-import { getCredenctialService } from "./credentialService";
+import { checkUserCredentialService, getCredenctialService } from "./credentialService";
 
 
 
@@ -14,7 +14,7 @@ return await UserModel.find()
 export const getUserByIdService = async (id:number): Promise<User | null> => {
     const userFound = await UserModel.findOne({
         where: {id:id},
-      relations: ['credentials'] //buscamos el usuario y sus credenciales
+    //   relations: ['appointment'] //buscamos el usuario y sus credenciales
     }) //buscamos el usuario
     if(!userFound) throw new Error(`El usuario con id: ${id} no fue encontrado`)//sino hacemos una excepción
         else return userFound
@@ -44,4 +44,23 @@ return {
     name: resultadoTransacción.name,
     email: resultadoTransacción.email
 }
+}
+
+export const loginUserService = async(user: userLoginDTO): Promise<userLoginSccDTO> => {
+
+ const credentialId: number = await checkUserCredentialService(user.username, user.password)
+
+ const userFound: User | null = await UserModel.findOne({ where: {
+    credentials: {
+        id: credentialId
+    }
+ }})
+
+ return{
+    id: userFound?.id ?? 0,
+    name: userFound?.name ?? "",
+    email: userFound?.email ?? "",
+    birthdate: userFound?.birthdate ?? new Date(),
+    nDni: userFound?.nDni ?? 0
+ }
 }

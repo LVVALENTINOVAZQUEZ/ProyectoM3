@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import { userLoginDTO, userRegisterDTO } from "../dtos/UserDTO"
-import { getUserByIdService, getUserService, registerUserService } from "../services/userServices"
+import { userLoginDTO, userLoginSccDTO, userRegisterDTO } from "../dtos/UserDTO"
+import { getUserByIdService, getUserService, loginUserService, registerUserService } from "../services/userServices"
 import { PostgretsError } from "../interfaces/ErrorInterfaces"
 
  export const getUsersController = async(req: Request, res: Response): Promise<void> => {
@@ -25,13 +25,9 @@ export const getUserByIdController = async(req: Request<{id: string}>, res: Resp
     
    try {
     const userFound = await getUserByIdService(parseInt(req.params.id,10))
-       res.status(200).json({
-           message: 'Obtener el detalle de un usuario específico.',
-           data: userFound
-       })
-    
-   } catch (error) {
-    res.status(500).json({
+       res.status(200).json(userFound)
+    } catch (error) {
+    res.status(404).json({
         message: error instanceof Error ? error.message: 'Error desconocido'
     })
    }
@@ -49,7 +45,7 @@ export const registerUserController = async(req: Request<unknown, unknown, userR
     
    } catch (error) {
     const err = error as PostgretsError
-    res.status(500).json({
+    res.status(400).json({
         message: err instanceof Error ? err.detail ? err.detail: err.message: 'Error desconocido'
     })
     
@@ -57,12 +53,26 @@ export const registerUserController = async(req: Request<unknown, unknown, userR
          }
 
 export const loginUsersController = async(req: Request<unknown, unknown, userLoginDTO>, res: Response):Promise<void> => {
+      
+    try {
+        
+        const user:userLoginSccDTO = await loginUserService(req.body)    
+        res.status(200).json({
             
-    res.status(201).json({
-        message: 'Login del usuario a la aplicación.',
-        data: {}
+        login: true,
+        user
+
+        })
+             
+    } catch (error) {
+        
+        res.status(400).json({
+        message: error instanceof Error ?  error.message: 'Error desconocido'
     })
-         }
+        
+    }
+}
+
       
 
 

@@ -37,7 +37,9 @@ export const getCredenctialService = async(entityManager: EntityManager,username
     
 }
 export const checkUserCredentialService = async(username: string, password: string): Promise<number> => {
-     const credentialFound = credentialsList.find( cred => cred.username === username)
+     const credentialFound =  await CredentialModel.findOne({where:{
+        username: username
+     }})
      if(credentialFound?.password === await crypPass(password)) return credentialFound.id
      else throw new Error(`Usuario o contraseña erroneos`)
 
