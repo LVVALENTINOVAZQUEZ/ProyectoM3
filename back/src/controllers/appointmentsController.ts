@@ -10,7 +10,7 @@ export const getappointmentsController  = async(req: Request, res: Response): Pr
       })
 
  }  catch (error) {
-     res.status(500).json({
+     res.status(404).json({
           message: error instanceof Error ? error.message: 'Error desconocido'
      })
  } 
@@ -25,7 +25,7 @@ export const getappointmentsByIdController =  async(req: Request<{id:string}>, r
       })
 
  }  catch (error) {
-     res.status(500).json({
+     res.status(404).json({
           message: error instanceof Error ? error.message: 'Error desconocido'
      })
  } 
@@ -33,13 +33,13 @@ export const getappointmentsByIdController =  async(req: Request<{id:string}>, r
 }
 export const scheduleAppointmentController =  async(req: Request<unknown, unknown, scheduleAppDTO>, res:Response):Promise<void> => {
  try {
-      res.status(200).json({
+      res.status(201).json({
          message: 'Agendar un nuevo turno.',
          data: await registerAppService(req.body)
       })
 
  }  catch (error) {
-     res.status(500).json({
+     res.status(400).json({
           message: error instanceof Error ? error.message: 'Error desconocido'
      })
  } 
@@ -53,7 +53,7 @@ export const cancelAppointmentsController =  async(req: Request<{id:string}>, re
       })
 
  }  catch (error) {
-     res.status(500).json({
+     res.status(404).json({
           message: error instanceof Error ? error.message: 'Error desconocido'
      })
  } 

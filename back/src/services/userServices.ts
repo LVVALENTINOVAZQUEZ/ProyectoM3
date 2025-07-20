@@ -1,4 +1,3 @@
-import { EntityManager } from "typeorm";
 import { AppDataSource, UserModel } from "../Config/data-source";
 import { userLoginDTO, userLoginSccDTO, userRegisterDTO, userResponseDTO } from "../dtos/UserDTO";
 import { User } from "../entities/UserEntity";
@@ -13,8 +12,8 @@ return await UserModel.find()
 
 export const getUserByIdService = async (id:number): Promise<User | null> => {
     const userFound = await UserModel.findOne({
-        where: {id:id},
-    //   relations: ['appointment'] //buscamos el usuario y sus credenciales
+        where: {id: id },
+      relations: ['appointments'] //buscamos el usuario y sus credenciales
     }) //buscamos el usuario
     if(!userFound) throw new Error(`El usuario con id: ${id} no fue encontrado`)//sino hacemos una excepción
         else return userFound
