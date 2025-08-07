@@ -1,0 +1,81 @@
+
+
+.container {
+  background-color: var(--blanco);
+  max-width: 480px;
+  margin: 3rem auto;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(27, 38, 59, 0.15);
+  color: var(--azul-marino);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 1.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.input {
+  padding: 0.55rem 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+  color: var(--azul-marino);
+}
+
+.input:focus {
+  border-color: var(--verde-agua);
+  outline: none;
+  box-shadow: 0 0 5px var(--verde-agua);
+}
+
+.errorInput {
+  border-color: var(--rojo-error);
+}
+
+.error {
+  color: var(--rojo-error);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
+.submitButton {
+  padding: 0.7rem;
+  background-color: var(--verde-agua);
+  color: var(--blanco);
+  font-weight: 700;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  border: none;
+  margin-top: 1rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #3da68d;
+}
+
+.submitButton:disabled {
+  background-color: #94d3c5;
+  cursor: not-allowed;
+}

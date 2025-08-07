@@ -13,9 +13,9 @@ return await UserModel.find()
 export const getUserByIdService = async (id:number): Promise<User | null> => {
     const userFound = await UserModel.findOne({
         where: {id: id },
-      relations: ['appointments'] //buscamos el usuario y sus credenciales
-    }) //buscamos el usuario
-    if(!userFound) throw new Error(`El usuario con id: ${id} no fue encontrado`)//sino hacemos una excepción
+      relations: ['appointments'] 
+    }) 
+    if(!userFound) throw new Error(`El usuario con id: ${id} no fue encontrado`)
         else return userFound
 }
 

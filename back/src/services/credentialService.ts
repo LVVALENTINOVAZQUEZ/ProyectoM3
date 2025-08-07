@@ -45,14 +45,3 @@ export const checkUserCredentialService = async(username: string, password: stri
 
 }
 
-// const saludar  = async () => {
-
-//     await getCredenctialService("valentino", "jndslcnskc899")
-//     await getCredenctialService("valentino2", "jndslcnskc899")
-//     await getCredenctialService("valentino3", "jndslcnskc899")
-    
-//     console.log(await checkUserCredentialService("valentino", "77878788"))
-
-// }
-
-// saludar()

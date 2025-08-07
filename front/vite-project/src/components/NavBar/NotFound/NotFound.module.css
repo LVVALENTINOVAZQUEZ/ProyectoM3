@@ -1,0 +1,41 @@
+
+
+
+.notFoundContainer {
+  text-align: center;
+  padding: 5rem 1rem;
+  color: var(--azul-marino);
+  background-color: var(--blanco);
+  max-width: 600px;
+  margin: 4rem auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(27, 38, 59, 0.2);
+}
+
+.title {
+  font-size: 6rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  user-select: none;
+}
+
+.description {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  color: var(--gris-texto);
+}
+
+.homeLink {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--verde-agua);
+  color: var(--blanco);
+  font-weight: 700;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.homeLink:hover {
+  background-color: #3da68d;
+}
