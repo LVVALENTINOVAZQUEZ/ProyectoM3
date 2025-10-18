@@ -26,3 +26,64 @@ Este proyecto busca simular un sistema de turnos para clínicas, servicios o neg
 1. **Clonar el repositorio**
    ```bash
    git clone https://github.com/LVVALENTINOVAZQUEZ/ProyectoM3.git
+
+2. **Instalar Node.js y npm**
+
+🔹 Backend
+1. **Ir a la carpeta del backend**
+ 
+```bash
+cd ProyectoM3/back
+```
+2. **Instalar dependencias**
+
+```bash
+npm install
+```
+
+3. **Configurar variables de entorno en un archivo .env:**
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=tu_password
+DB_NAME=proyectoM3
+PORT=3001
+```
+4. **Compilar TypeScript**
+
+   ```bash
+   npm run build
+   ```
+
+5. **Iniciar el servidor**
+   ```bash
+   npm start
+   ```
+🔹 Frontend
+
+1. **Ir a la carpeta del frontend**
+
+2. **Instalar dependencias**
+   ```bash
+    npm install
+   ```
+
+3. **Levantar el servidor de desarrollo**
+  ```bash
+   npm run dev
+  ```
+
+4. **Build de producción**
+   ```bash
+   npm run build
+   ```
+
+   📌 Notas adicionales
+- El backend está desarrollado en TypeScript con Express y TypeORM, conectado a PostgreSQL.
+- El frontend está hecho en React con Vite, usando librerías modernas para formularios, alertas y navegación.
+- Se recomienda usar migraciones de TypeORM para mantener la base de datos sincronizada.
+- El proyecto puede extenderse con autenticación JWT, roles de usuario y panel de administración.
+
+   
